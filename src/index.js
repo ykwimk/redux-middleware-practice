@@ -3,11 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import rootReducer from './modules';
+import logger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import ReduxThunk from 'redux-thunk';
+
+// 여러개의 미들웨어를 묶어서 적용할 수 있다.
+// logger를 사용하는 경우, logger는 맨 마지막에 와야한다.
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk, logger)))
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
